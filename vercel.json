@@ -1,5 +1,4 @@
 {
     "outputDirectory": "public",
-    "framework": "other",
     "buildCommand": "npm run build && composer install --no-dev --optimize-autoloader"
 }
