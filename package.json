@@ -2,17 +2,5 @@
   "name": "waqaf-laravel-app",
   "version": "1.0.0",
   "private": true,
-  "type": "module",
-  "scripts": {
-    "build": "echo 'Frontend build disabled - using pre-built assets' && exit 0",
-    "dev": "echo 'Development server not available in production' && exit 0",
-    "production": "echo 'Using pre-built production assets' && exit 0",
-    "hot": "echo 'Hot reload not available in production' && exit 0",
-    "vercel-build": "echo 'Vercel build skipped - Laravel handles server-side rendering' && exit 0"
-  },
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "devDependencies": {},
-  "dependencies": {}
+  "description": "Laravel Waqaf application - server-side rendering only"
 }
