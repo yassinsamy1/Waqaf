@@ -1,4 +1,15 @@
 {
+    "functions": {
+        "api/index.php": {
+            "runtime": "vercel-php@0.7.0"
+        }
+    },
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "/api/index.php"
+        }
+    ],
     "outputDirectory": "public",
-    "buildCommand": "npm run build && composer install --no-dev --optimize-autoloader"
+    "buildCommand": "npm run build"
 }
