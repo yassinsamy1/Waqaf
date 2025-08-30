@@ -27,9 +27,15 @@
             "dest": "/api/index.php"
         }
     ],
+    "build": {
+        "env": {
+            "SKIP_FRONTEND_BUILD": "true"
+        }
+    },
     "env": {
         "APP_ENV": "production",
         "APP_DEBUG": "false",
-        "APP_URL": "https://waqaf-9jek6fc8t-yassin-samys-projects.vercel.app"
+        "APP_URL": "https://waqaf-9jek6fc8t-yassin-samys-projects.vercel.app",
+        "SKIP_FRONTEND_BUILD": "true"
     }
 }
