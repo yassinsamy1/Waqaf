@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "echo 'Build skipped - using pre-built assets from public/build/'",
+    "dev": "echo 'Development mode not available in production'",
+    "vercel-build": "echo 'Using pre-built assets - no frontend build needed'"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
