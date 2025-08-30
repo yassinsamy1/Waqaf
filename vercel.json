@@ -1,6 +1,5 @@
 {
     "version": 2,
-    "framework": null,
     "functions": {
         "api/index.php": {
             "runtime": "vercel-php@0.6.0"
@@ -28,10 +27,14 @@
             "dest": "/api/index.php"
         }
     ],
+    "build": {
+        "env": {
+            "PHP_VERSION": "8.2"
+        }
+    },
     "env": {
         "APP_ENV": "production",
         "APP_DEBUG": "false",
-        "APP_URL": "https://your-app-name.vercel.app",
-        "VERCEL_DEMO_MODE": "true"
+        "APP_URL": "https://your-app-name.vercel.app"
     }
 }
