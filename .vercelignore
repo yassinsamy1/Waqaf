@@ -14,8 +14,9 @@ yarn-error.log
 /.vscode
 storage/logs/*.log
 bootstrap/cache/*.php
-package.json
-package-lock.json
+package*.json
 vite.config.js
 resources/css/
 resources/js/
+.vercel/
+*.log
