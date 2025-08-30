@@ -1,0 +1,13 @@
+.git
+.gitignore
+README.md
+Dockerfile
+.dockerignore
+node_modules
+npm-debug.log
+vendor
+.env
+.env.backup
+.env.production
+storage/logs/*.log
+bootstrap/cache/*.php
