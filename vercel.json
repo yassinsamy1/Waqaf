@@ -1,9 +1,10 @@
 {
     "version": 2,
+    "rewrites": [
+        { "source": "/(.*)", "destination": "/api/index.php" }
+    ],
     "functions": {
-        "public/index.php": {
-            "runtime": "vercel-php@0.7.0"
-        }
+        "api/**/*.php": { "runtime": "vercel-php@0.7.0" }
     },
     "routes": [
         {
@@ -21,10 +22,6 @@
         {
             "src": "/robots.txt",
             "dest": "/public/robots.txt"
-        },
-        {
-            "src": "/(.*)",
-            "dest": "/public/index.php"
         }
     ],
     "env": {
