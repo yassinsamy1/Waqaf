@@ -1,29 +1,12 @@
 {
-    "version": 2,
+    "functions": {
+        "api/index.php": { "runtime": "vercel-php@0.7.0" }
+    },
     "rewrites": [
         { "source": "/(.*)", "destination": "/api/index.php" }
     ],
-    "functions": {
-        "api/**/*.php": { "runtime": "vercel-php@0.7.0" }
-    },
-    "routes": [
-        {
-            "src": "/build/(.*)",
-            "dest": "/public/build/$1"
-        },
-        {
-            "src": "/(css|js|images)/(.*)",
-            "dest": "/public/$1/$2"
-        },
-        {
-            "src": "/favicon.ico",
-            "dest": "/public/favicon.ico"
-        },
-        {
-            "src": "/robots.txt",
-            "dest": "/public/robots.txt"
-        }
-    ],
+    "installCommand": "composer install --no-dev --prefer-dist --optimize-autoloader",
+    "buildCommand": "composer install --no-dev --prefer-dist --optimize-autoloader",
     "env": {
         "APP_ENV": "production",
         "APP_DEBUG": "false",

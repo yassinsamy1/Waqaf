@@ -1,6 +1,11 @@
 {
-  "name": "waqaf-laravel-app",
-  "version": "1.0.0",
-  "private": true,
-  "description": "Laravel Waqaf application - server-side rendering only"
+    "name": "waqaf-laravel-app",
+    "version": "1.0.0",
+    "private": true,
+    "engines": { 
+        "node": ">=20" 
+    },
+    "scripts": {
+        "build": "echo 'No frontend build needed - using server-side rendering'"
+    }
 }
