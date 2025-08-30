@@ -20,3 +20,5 @@ resources/css/
 resources/js/
 .vercel/
 *.log
+*.bak
+.editorconfig
