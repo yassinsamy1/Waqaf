@@ -1,5 +1,6 @@
 {
     "version": 2,
+    "framework": null,
     "functions": {
         "api/index.php": {
             "runtime": "vercel-php@0.6.0"
@@ -27,6 +28,9 @@
             "dest": "/api/index.php"
         }
     ],
+    "github": {
+        "silent": true
+    },
     "env": {
         "APP_ENV": "production",
         "APP_DEBUG": "false",
