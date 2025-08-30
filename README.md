@@ -1,11 +1,166 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Waqaf Application Management System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A comprehensive Laravel-based web application for managing Waqaf (Islamic endowment) applications with a modern, user-friendly interface and professional PDF generation capabilities.
+
+## 🌟 Features
+
+- **Multi-step Form Wizard**: Intuitive 4-page form with progress tracking
+- **Professional PDF Generation**: High-quality printable Waqaf applications
+- **Responsive Design**: Mobile-friendly interface using Bootstrap 5.3.0
+- **Database Management**: Proper timezone handling and sequential ordering
+- **Separation of Concerns**: Clean, maintainable code architecture
+- **Vercel Deployment Ready**: Complete serverless deployment configuration
+
+## 🚀 Technology Stack
+
+- **Backend**: Laravel 10.x
+- **Frontend**: Bootstrap 5.3.0, JavaScript
+- **Database**: MySQL with Asia/Kuala_Lumpur timezone
+- **Templating**: Blade templates with component architecture
+- **Deployment**: Vercel serverless platform
+
+## 📋 Application Features
+
+### Form Management
+- **Page 1**: Checklist validation for required documents
+- **Page 2**: Detailed Waqaf information and classification
+- **Page 3**: Land details, measurements, and location data
+- **Page 4**: People information (Waqif, witnesses, etc.)
+
+### Professional Output
+- **Print Template**: A4-formatted PDF with proper spacing
+- **Checkbox Layout**: Professional checkbox positioning
+- **Signature Sections**: Dedicated areas for official signatures
+- **Multi-page Support**: Optimized layout for printing
+
+### User Experience
+- **Progress Tracking**: Visual progress indicator across form steps
+- **Navigation**: Clickable logos and intuitive button layout
+- **Validation**: Client-side and server-side form validation
+- **Responsive**: Works perfectly on desktop and mobile devices
+
+## 🛠 Installation
+
+### Local Development
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yassinsamy1/Waqaf.git
+   cd Waqaf
+   ```
+
+2. **Install dependencies**
+   ```bash
+   composer install
+   npm install
+   ```
+
+3. **Environment setup**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+
+4. **Database configuration**
+   ```bash
+   # Update .env with your database credentials
+   php artisan migrate
+   ```
+
+5. **Start development server**
+   ```bash
+   php artisan serve
+   npm run dev
+   ```
+
+### Production Deployment (Vercel)
+
+This project is configured for seamless Vercel deployment. See [README-DEPLOYMENT.md](README-DEPLOYMENT.md) for detailed deployment instructions.
+
+## 📁 Project Structure
+
+```
+├── app/
+│   ├── Http/Controllers/WaqafApplicationController.php
+│   └── Models/WaqafApplication.php
+├── resources/views/
+│   ├── layouts/app.blade.php
+│   └── waqaf/
+│       ├── create.blade.php
+│       ├── pages/
+│       │   ├── page1-checklist.blade.php
+│       │   ├── page2-wakaf-details.blade.php
+│       │   ├── page3-land-details.blade.php
+│       │   └── page4-people.blade.php
+│       └── print.blade.php
+├── api/index.php (Vercel entry point)
+├── vercel.json (Deployment configuration)
+└── README-DEPLOYMENT.md
+```
+
+## 🎯 Key Components
+
+### WaqafApplicationController
+- Handles CRUD operations for Waqaf applications
+- Manages form processing and validation
+- Generates PDF output for printing
+
+### Blade Templates
+- **Separation of Concerns**: Each form page is a standalone component
+- **Reusable Layout**: Consistent navigation and styling
+- **Print Optimization**: Professional PDF formatting
+
+### Database Model
+- **WaqafApplication**: Complete data model with proper relationships
+- **Timezone Handling**: Asia/Kuala_Lumpur timezone configuration
+- **Sequential Ordering**: Proper ID-based ordering for display
+
+## 🔧 Configuration
+
+### Database
+- **Timezone**: Configured for Asia/Kuala_Lumpur
+- **Charset**: UTF8MB4 for full Unicode support
+- **Migrations**: Comprehensive table structure
+
+### Environment Variables
+```env
+DB_CONNECTION=mysql
+DB_HOST=your-database-host
+DB_PORT=3306
+DB_DATABASE=waqaf_db
+DB_USERNAME=your-username
+DB_PASSWORD=your-password
+APP_TIMEZONE=Asia/Kuala_Lumpur
+```
+
+## 📱 Screenshots
+
+- Multi-step form with progress tracking
+- Professional PDF output
+- Responsive mobile interface
+- Clean administrative dashboard
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## 🆘 Support
+
+For support and questions:
+- Create an issue on GitHub
+- Check the [deployment guide](README-DEPLOYMENT.md) for setup help
+
+---
+
+**Built with ❤️ for the Islamic community**
 
 ## About Laravel
 
