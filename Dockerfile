@@ -34,11 +34,6 @@ COPY --chown=www-data:www-data . /var/www
 # Install dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Laravel optimizations
-RUN php artisan config:cache
-RUN php artisan route:cache
-RUN php artisan view:cache
-
 # Copy nginx configuration
 COPY docker/nginx.conf /etc/nginx/sites-available/default
 
