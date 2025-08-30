@@ -3,7 +3,10 @@
     "builds": [
         {
             "src": "api/index.php",
-            "use": "vercel-php@0.5.2"
+            "use": "vercel-php@0.6.0",
+            "config": {
+                "skipFrontendBuild": true
+            }
         }
     ],
     "routes": [
@@ -31,6 +34,7 @@
     "env": {
         "APP_ENV": "production",
         "APP_DEBUG": "false",
-        "APP_URL": "https://waqaf-9jek6fc8t-yassin-samys-projects.vercel.app"
+        "APP_URL": "https://waqaf-9jek6fc8t-yassin-samys-projects.vercel.app",
+        "DISABLE_FRONTEND_BUILD": "true"
     }
 }
