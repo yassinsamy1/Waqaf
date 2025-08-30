@@ -34,11 +34,20 @@ COPY --chown=www-data:www-data . /var/www
 # Install dependencies
 RUN composer install --no-dev --optimize-autoloader
 
+# Laravel optimizations
+RUN php artisan config:cache
+RUN php artisan route:cache
+RUN php artisan view:cache
+
 # Copy nginx configuration
 COPY docker/nginx.conf /etc/nginx/sites-available/default
 
 # Copy supervisor configuration
 COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Copy entrypoint script
+COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Create required directories
 RUN mkdir -p /var/www/storage/logs /var/www/bootstrap/cache
@@ -48,5 +57,5 @@ RUN chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 # Expose port 80
 EXPOSE 80
 
-# Start supervisor
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+# Start with entrypoint script
+CMD ["/usr/local/bin/entrypoint.sh"]
