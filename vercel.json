@@ -5,6 +5,16 @@
             "runtime": "vercel-php@0.7.0"
         }
     },
+    "framework": null,
+    "buildCommand": "echo 'Build disabled - using server-side rendering only'",
+    "outputDirectory": "public",
+    "installCommand": "echo 'No frontend dependencies to install'",
+    "build": {
+        "env": {
+            "DISABLE_VERCEL_BUILD": "1",
+            "SKIP_INSTALL_DEPS": "1"
+        }
+    },
     "routes": [
         {
             "src": "/build/(.*)",
