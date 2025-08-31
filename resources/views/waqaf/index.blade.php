@@ -21,7 +21,7 @@
                             <th>No. Syarikat</th>
                             <th>Mukim</th>
                             <th>Daerah</th>
-                            <th>Jenis Wakaf</th>
+                            <!-- Jenis Wakaf column removed -->
                             <th>Tarikh Lafaz</th>
                             <th>Dibuat</th>
                             <th>Dikemaskini</th>
@@ -36,19 +36,7 @@
                             <td>{{ $application->no_syarikat }}</td>
                             <td>{{ $application->mukim }}</td>
                             <td>{{ $application->daerah }}</td>
-                            <td>
-                                @switch($application->jenis_wakaf)
-                                    @case('wakaf_khas')
-                                        <span class="badge bg-primary">Wakaf Khas</span>
-                                        @break
-                                    @case('wakaf_saraan')
-                                        <span class="badge bg-success">Wakaf Saraan</span>
-                                        @break
-                                    @case('wakaf_am')
-                                        <span class="badge bg-info">Wakaf Am</span>
-                                        @break
-                                @endswitch
-                            </td>
+                            <!-- Jenis Wakaf cell removed -->
                             <td>{{ $application->tarikh_lafaz ? $application->tarikh_lafaz->format('d/m/Y') : '-' }}</td>
                             <td>
                                 <small class="text-muted">

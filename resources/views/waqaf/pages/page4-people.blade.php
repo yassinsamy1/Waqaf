@@ -18,17 +18,17 @@
                 
                 <div class="mb-3">
                     <label for="pengarah_1_ic" class="form-label">No K/P <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control @error('pengarah_1_ic') is-invalid @enderror" 
-                           id="pengarah_1_ic" name="pengarah_1_ic" value="{{ old('pengarah_1_ic') }}" required>
+              <input type="text" class="form-control @error('pengarah_1_ic') is-invalid @enderror" 
+                  id="pengarah_1_ic" name="pengarah_1_ic" value="{{ old('pengarah_1_ic') }}" required pattern="^[0-9]{10,20}$" minlength="10" maxlength="20" title="Masukkan 10 hingga 20 digit nombor K/P">
                     @error('pengarah_1_ic')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
                 
                 <div class="mb-3">
-                    <label for="pengarah_1_tarikh" class="form-label">Tarikh</label>
-                    <input type="date" class="form-control @error('pengarah_1_tarikh') is-invalid @enderror" 
-                           id="pengarah_1_tarikh" name="pengarah_1_tarikh" value="{{ old('pengarah_1_tarikh') }}">
+              <label for="pengarah_1_tarikh" class="form-label">Tarikh</label>
+              <input type="text" class="form-control @error('pengarah_1_tarikh') is-invalid @enderror" 
+                  id="pengarah_1_tarikh" name="pengarah_1_tarikh" value="{{ old('pengarah_1_tarikh', isset($waqaf) ? $waqaf->pengarah_1_tarikh : '') }}" pattern="(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[012])-(19|20)\d\d" title="Format: dd-mm-yyyy" placeholder="dd-mm-yyyy">
                     @error('pengarah_1_tarikh')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -48,17 +48,49 @@
                 
                 <div class="mb-3">
                     <label for="pengarah_2_ic" class="form-label">No K/P <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control @error('pengarah_2_ic') is-invalid @enderror" 
-                           id="pengarah_2_ic" name="pengarah_2_ic" value="{{ old('pengarah_2_ic') }}" required>
+              <input type="text" class="form-control @error('pengarah_2_ic') is-invalid @enderror" 
+                  id="pengarah_2_ic" name="pengarah_2_ic" value="{{ old('pengarah_2_ic') }}" required pattern="^[0-9]{10,20}$" minlength="10" maxlength="20" title="Masukkan 10 hingga 20 digit nombor K/P">
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    ['pengarah_1_ic', 'pengarah_2_ic'].forEach(function(id) {
+        var field = document.getElementById(id);
+        if (field) {
+            field.addEventListener('input', function() {
+                field.setCustomValidity('');
+                if (!field.value.trim()) {
+                    field.setCustomValidity('No K/P diperlukan.');
+                } else if (field.pattern && field.value.trim()) {
+                    var regex = new RegExp('^' + field.pattern + '$');
+                    if (!regex.test(field.value.trim())) {
+                        field.setCustomValidity('Masukkan 10 hingga 20 digit nombor K/P');
+                    } else {
+                        field.setCustomValidity('');
+                    }
+                }
+            });
+            field.addEventListener('invalid', function() {
+                if (field.validationMessage) {
+                    field.classList.add('is-invalid');
+                }
+            });
+            field.addEventListener('blur', function() {
+                if (!field.checkValidity()) {
+                    field.reportValidity();
+                }
+            });
+        }
+    });
+});
+</script>
                     @error('pengarah_2_ic')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
                 
                 <div class="mb-3">
-                    <label for="pengarah_2_tarikh" class="form-label">Tarikh</label>
-                    <input type="date" class="form-control @error('pengarah_2_tarikh') is-invalid @enderror" 
-                           id="pengarah_2_tarikh" name="pengarah_2_tarikh" value="{{ old('pengarah_2_tarikh') }}">
+              <label for="pengarah_2_tarikh" class="form-label">Tarikh</label>
+              <input type="text" class="form-control @error('pengarah_2_tarikh') is-invalid @enderror" 
+                  id="pengarah_2_tarikh" name="pengarah_2_tarikh" value="{{ old('pengarah_2_tarikh', isset($waqaf) ? $waqaf->pengarah_2_tarikh : '') }}" pattern="(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[012])-(19|20)\d\d" title="Format: dd-mm-yyyy" placeholder="dd-mm-yyyy">
                     @error('pengarah_2_tarikh')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -89,9 +121,9 @@
                 </div>
                 
                 <div class="mb-3">
-                    <label for="saksi_1_tarikh" class="form-label">Tarikh</label>
-                    <input type="date" class="form-control @error('saksi_1_tarikh') is-invalid @enderror" 
-                           id="saksi_1_tarikh" name="saksi_1_tarikh" value="{{ old('saksi_1_tarikh') }}">
+              <label for="saksi_1_tarikh" class="form-label">Tarikh</label>
+              <input type="text" class="form-control @error('saksi_1_tarikh') is-invalid @enderror" 
+                  id="saksi_1_tarikh" name="saksi_1_tarikh" value="{{ old('saksi_1_tarikh', isset($waqaf) ? $waqaf->saksi_1_tarikh : '') }}" pattern="(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[012])-(19|20)\d\d" title="Format: dd-mm-yyyy" placeholder="dd-mm-yyyy">
                     @error('saksi_1_tarikh')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -119,9 +151,9 @@
                 </div>
                 
                 <div class="mb-3">
-                    <label for="saksi_2_tarikh" class="form-label">Tarikh</label>
-                    <input type="date" class="form-control @error('saksi_2_tarikh') is-invalid @enderror" 
-                           id="saksi_2_tarikh" name="saksi_2_tarikh" value="{{ old('saksi_2_tarikh') }}">
+              <label for="saksi_2_tarikh" class="form-label">Tarikh</label>
+              <input type="text" class="form-control @error('saksi_2_tarikh') is-invalid @enderror" 
+                  id="saksi_2_tarikh" name="saksi_2_tarikh" value="{{ old('saksi_2_tarikh', isset($waqaf) ? $waqaf->saksi_2_tarikh : '') }}" pattern="(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[012])-(19|20)\d\d" title="Format: dd-mm-yyyy" placeholder="dd-mm-yyyy">
                     @error('saksi_2_tarikh')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror

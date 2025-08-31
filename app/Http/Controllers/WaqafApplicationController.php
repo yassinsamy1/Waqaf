@@ -20,11 +20,12 @@ class WaqafApplicationController extends Controller
 
     public function store(Request $request)
     {
+        $request = $this->convertDateFields($request);
         $validatedData = $request->validate([
             'no_syarikat' => 'required|string|max:255',
             'alamat' => 'required|string',
             'tarikh_lafaz' => 'required|date',
-            'jenis_wakaf' => 'required|in:wakaf_khas,wakaf_saraan,wakaf_am',
+            'jenis_wakaf' => 'nullable|in:wakaf_khas,wakaf_saraan,wakaf_am',
             'tujuan' => 'required|string',
             'mukim' => 'required|string|max:255',
             'daerah' => 'required|string|max:255',
@@ -35,6 +36,8 @@ class WaqafApplicationController extends Controller
             'pengarah_1_ic' => 'required|string|max:20',
             'pengarah_2_nama' => 'required|string|max:255',
             'pengarah_2_ic' => 'required|string|max:20',
+            'pengesah_1_nama' => 'required|string|max:255',
+            'pengesah_1_tel' => 'required|string|max:255',
         ]);
 
         $booleanFields = [
@@ -75,11 +78,14 @@ class WaqafApplicationController extends Controller
 
     public function update(Request $request, WaqafApplication $waqaf)
     {
-        $validatedData = $request->validate([
+        \Log::info('Update request data', $request->all());
+        $request = $this->convertDateFields($request);
+        try {
+            $validatedData = $request->validate([
             'no_syarikat' => 'required|string|max:255',
             'alamat' => 'required|string',
             'tarikh_lafaz' => 'required|date',
-            'jenis_wakaf' => 'required|in:wakaf_khas,wakaf_saraan,wakaf_am',
+            'jenis_wakaf' => 'nullable|in:wakaf_khas,wakaf_saraan,wakaf_am',
             'tujuan' => 'required|string',
             'mukim' => 'required|string|max:255',
             'daerah' => 'required|string|max:255',
@@ -90,6 +96,8 @@ class WaqafApplicationController extends Controller
             'pengarah_1_ic' => 'required|string|max:20',
             'pengarah_2_nama' => 'required|string|max:255',
             'pengarah_2_ic' => 'required|string|max:20',
+            'pengesah_1_nama' => 'required|string|max:255',
+            'pengesah_1_tel' => 'required|string|max:255',
         ]);
 
         $booleanFields = [
@@ -112,10 +120,16 @@ class WaqafApplicationController extends Controller
             'hakim_nama', 'hakim_ic'
         ]));
 
-        $waqaf->update($validatedData);
-
-        return redirect()->route('waqaf.show', $waqaf)
-                        ->with('success', 'Permohonan wakaf berjaya dikemaskini.');
+            $waqaf->update($validatedData);
+            return redirect()->route('waqaf.show', $waqaf)
+                ->with('success', 'Permohonan wakaf berjaya dikemaskini.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            \Log::error('Validation failed', [
+                'errors' => $e->errors(),
+                'input' => $request->all()
+            ]);
+            throw $e;
+        }
     }
 
     public function destroy(WaqafApplication $waqaf)
@@ -129,5 +143,23 @@ class WaqafApplicationController extends Controller
     public function print(WaqafApplication $waqaf)
     {
         return view('waqaf.print', compact('waqaf'));
+    }
+
+    /**
+     * Convert date fields from dd-mm-yyyy to Y-m-d
+     */
+    private function convertDateFields($request)
+    {
+        $dateFields = [
+            'tarikh_lafaz', 'pengarah_1_tarikh', 'pengarah_2_tarikh',
+            'saksi_1_tarikh', 'saksi_2_tarikh'
+        ];
+        foreach ($dateFields as $field) {
+            $val = $request->input($field);
+            if ($val && preg_match('/^(\d{2})-(\d{2})-(\d{4})$/', $val, $m)) {
+                $request->merge([$field => $m[3] . '-' . $m[2] . '-' . $m[1]]);
+            }
+        }
+        return $request;
     }
 }

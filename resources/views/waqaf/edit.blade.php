@@ -10,7 +10,10 @@
     </a>
 </div>
 
-<form action="{{ route('waqaf.update', $waqaf) }}" method="POST">
+<!-- Notification Area -->
+<div id="formNotification" class="alert alert-danger d-none" role="alert"></div>
+
+<form action="{{ route('waqaf.update', $waqaf) }}" method="POST" id="wakafEditForm">
     @csrf
     @method('PUT')
     
@@ -110,22 +113,49 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="mb-3">
-                    <label for="pengesah_1_nama" class="form-label">Nama Pengesah 1</label>
-                    <input type="text" class="form-control @error('pengesah_1_nama') is-invalid @enderror" 
-                           id="pengesah_1_nama" name="pengesah_1_nama" value="{{ old('pengesah_1_nama', $waqaf->pengesah_1_nama) }}">
+                    <label for="pengesah_1_nama" class="form-label">Nama Pengesah 1 <span class="text-danger">*</span></label>
+              <input type="text" class="form-control @error('pengesah_1_nama') is-invalid @enderror" 
+                  id="pengesah_1_nama" name="pengesah_1_nama" value="{{ old('pengesah_1_nama', $waqaf->pengesah_1_nama) }}" pattern="^[A-Za-z\s]+$" title="Hanya huruf dibenarkan" required>
                     @error('pengesah_1_nama')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
                 
                 <div class="mb-3">
-                    <label for="pengesah_1_tel" class="form-label">No. Tel Pengesah 1</label>
-                    <input type="text" class="form-control @error('pengesah_1_tel') is-invalid @enderror" 
-                           id="pengesah_1_tel" name="pengesah_1_tel" value="{{ old('pengesah_1_tel', $waqaf->pengesah_1_tel) }}">
+                    <label for="pengesah_1_tel" class="form-label">No. Tel Pengesah 1 <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control @error('pengesah_1_tel') is-invalid @enderror" 
+                      id="pengesah_1_tel" name="pengesah_1_tel" value="{{ old('pengesah_1_tel', $waqaf->pengesah_1_tel) }}" required pattern="^[0-9]{10,20}$" minlength="10" maxlength="20" title="Masukkan 10 hingga 20 digit nombor telefon">
                     @error('pengesah_1_tel')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
+                    <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const form = document.getElementById('wakafEditForm');
+                        const notification = document.getElementById('formNotification');
+                        form.addEventListener('submit', function(e) {
+                            let valid = true;
+                            let messages = [];
+                            const pengesah1Tel = form.querySelector('[name="pengesah_1_tel"]');
+                            const pengesah1Nama = form.querySelector('[name="pengesah_1_nama"]');
+                            if (!pengesah1Nama.value.trim()) {
+                                valid = false;
+                                messages.push('Nama Pengesah 1 diperlukan.');
+                            }
+                            if (!pengesah1Tel.value.match(/^[0-9]{10,20}$/)) {
+                                valid = false;
+                                messages.push('No. Tel Pengesah 1 mesti mengandungi 10 hingga 20 digit.');
+                            }
+                            if (!valid) {
+                                e.preventDefault();
+                                notification.textContent = messages.join(' ');
+                                notification.classList.remove('d-none');
+                            } else {
+                                notification.classList.add('d-none');
+                            }
+                        });
+                    });
+                    </script>
             </div>
             
             <div class="col-md-6">
@@ -158,8 +188,8 @@
             <div class="col-md-6">
                 <div class="mb-3">
                     <label for="no_syarikat" class="form-label">No. Syarikat <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control @error('no_syarikat') is-invalid @enderror" 
-                           id="no_syarikat" name="no_syarikat" value="{{ old('no_syarikat', $waqaf->no_syarikat) }}" required>
+              <input type="text" class="form-control @error('no_syarikat') is-invalid @enderror" 
+                  id="no_syarikat" name="no_syarikat" value="{{ old('no_syarikat', $waqaf->no_syarikat) }}" pattern="\d{3,20}" title="Hanya nombor 3-20 digit" required>
                     @error('no_syarikat')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -167,8 +197,8 @@
                 
                 <div class="mb-3">
                     <label for="tarikh_lafaz" class="form-label">Tarikh Lafaz <span class="text-danger">*</span></label>
-                    <input type="date" class="form-control @error('tarikh_lafaz') is-invalid @enderror" 
-                           id="tarikh_lafaz" name="tarikh_lafaz" value="{{ old('tarikh_lafaz', $waqaf->tarikh_lafaz?->format('Y-m-d')) }}" required>
+              <input type="text" class="form-control @error('tarikh_lafaz') is-invalid @enderror" 
+                  id="tarikh_lafaz" name="tarikh_lafaz" value="{{ old('tarikh_lafaz', $waqaf->tarikh_lafaz ? $waqaf->tarikh_lafaz->format('d-m-Y') : '') }}" pattern="(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[012])-(19|20)\d\d" title="Format: dd-mm-yyyy" required>
                     @error('tarikh_lafaz')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -220,9 +250,9 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="mb-3">
-                    <label class="form-label">Jenis Wakaf <span class="text-danger">*</span></label>
-                    
-                    <div class="mb-3">
+                    <!-- Jenis Wakaf selection removed as requested -->
+                    <!-- Details fields -->
+                    <div class="mb-3 mt-3">
                         <label for="wakaf_khas_detail" class="form-label">i. Wakaf Khas ( Tapak: <span class="text-danger">*</span> Masjid / Surau / Sekolah Agama Rakyat / Perkuburan )</label>
                         <input type="text" class="form-control @error('wakaf_khas_detail') is-invalid @enderror" 
                                id="wakaf_khas_detail" name="wakaf_khas_detail" 
@@ -232,7 +262,6 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-                    
                     <div class="mb-3">
                         <label for="wakaf_saraan_detail" class="form-label">ii. Wakaf Saraan ( <span class="text-danger">*</span> Masjid / Surau / Sekolah Agama Rakyat / Perkuburan )</label>
                         <input type="text" class="form-control @error('wakaf_saraan_detail') is-invalid @enderror" 
@@ -243,7 +272,6 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-                    
                     <div class="mb-3">
                         <label for="wakaf_am_detail" class="form-label">iii. Wakaf Am ( MAIPk )</label>
                         <input type="text" class="form-control @error('wakaf_am_detail') is-invalid @enderror" 
@@ -254,9 +282,6 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-                    
-                    <!-- Keep the original jenis_wakaf field hidden for backward compatibility -->
-                    <input type="hidden" id="jenis_wakaf" name="jenis_wakaf" value="{{ old('jenis_wakaf', $waqaf->jenis_wakaf) }}">
                 </div>
             </div>
         </div>
@@ -317,8 +342,8 @@
             <div class="col-md-6">
                 <div class="mb-3">
                     <label for="luas_tanah" class="form-label">Luas Tanah <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control @error('luas_tanah') is-invalid @enderror" 
-                           id="luas_tanah" name="luas_tanah" value="{{ old('luas_tanah', $waqaf->luas_tanah) }}" required>
+              <input type="text" class="form-control @error('luas_tanah') is-invalid @enderror" 
+                  id="luas_tanah" name="luas_tanah" value="{{ old('luas_tanah', $waqaf->luas_tanah) }}" pattern="\d{3,20}" title="Hanya nombor 3-20 digit" required>
                     @error('luas_tanah')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -364,8 +389,8 @@
                 <h6 class="text-secondary">Pengarah 1</h6>
                 <div class="mb-3">
                     <label for="pengarah_1_nama" class="form-label">Nama <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control @error('pengarah_1_nama') is-invalid @enderror" 
-                           id="pengarah_1_nama" name="pengarah_1_nama" value="{{ old('pengarah_1_nama', $waqaf->pengarah_1_nama) }}" required>
+              <input type="text" class="form-control @error('pengarah_1_nama') is-invalid @enderror" 
+                  id="pengarah_1_nama" name="pengarah_1_nama" value="{{ old('pengarah_1_nama', $waqaf->pengarah_1_nama) }}" pattern="^[A-Za-z\s]+$" title="Hanya huruf dibenarkan" required>
                     @error('pengarah_1_nama')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -373,8 +398,77 @@
                 
                 <div class="mb-3">
                     <label for="pengarah_1_ic" class="form-label">No K/P <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control @error('pengarah_1_ic') is-invalid @enderror" 
-                           id="pengarah_1_ic" name="pengarah_1_ic" value="{{ old('pengarah_1_ic', $waqaf->pengarah_1_ic) }}" required>
+              <input type="text" class="form-control @error('pengarah_1_ic') is-invalid @enderror" 
+                  id="pengarah_1_ic" name="pengarah_1_ic" value="{{ old('pengarah_1_ic', $waqaf->pengarah_1_ic) }}" required pattern="^[0-9]{10,20}$" minlength="10" maxlength="20" title="Masukkan 10 hingga 20 digit nombor K/P">
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('wakafEditForm');
+    const notification = document.getElementById('formNotification');
+    // Custom validation messages for all required and pattern fields
+    const requiredFields = form.querySelectorAll('input[required], textarea[required]');
+    requiredFields.forEach(field => {
+        field.addEventListener('input', function() {
+            field.setCustomValidity('');
+            if (!field.value.trim()) {
+                field.setCustomValidity((field.labels && field.labels[0] ? field.labels[0].innerText : field.name) + ' diperlukan.');
+            } else if (field.pattern && field.value.trim()) {
+                const regex = new RegExp('^' + field.pattern + '$');
+                if (!regex.test(field.value.trim())) {
+                    if (field.id === 'pengesah_1_tel') {
+                        field.setCustomValidity('Masukkan 10 hingga 20 digit nombor telefon');
+                    } else if (field.id === 'pengarah_1_ic') {
+                        field.setCustomValidity('Masukkan 10 hingga 20 digit nombor K/P');
+                    } else {
+                        field.setCustomValidity((field.labels && field.labels[0] ? field.labels[0].innerText : field.name) + ' tidak sah.');
+                    }
+                } else {
+                    field.setCustomValidity('');
+                }
+            }
+        });
+        field.addEventListener('invalid', function() {
+            if (field.validationMessage) {
+                field.classList.add('is-invalid');
+            }
+        });
+        field.addEventListener('blur', function() {
+            if (!field.checkValidity()) {
+                field.reportValidity();
+            }
+        });
+    });
+
+    form.addEventListener('submit', function(e) {
+        let valid = true;
+        let messages = [];
+        requiredFields.forEach(field => {
+            if (!field.value.trim()) {
+                valid = false;
+                messages.push((field.labels && field.labels[0] ? field.labels[0].innerText : field.name) + ' diperlukan.');
+            } else if (field.pattern && field.value.trim()) {
+                const regex = new RegExp('^' + field.pattern + '$');
+                if (!regex.test(field.value.trim())) {
+                    valid = false;
+                    if (field.id === 'pengesah_1_tel') {
+                        messages.push('No. Tel Pengesah 1 mesti mengandungi 10 hingga 20 digit.');
+                    } else if (field.id === 'pengarah_1_ic') {
+                        messages.push('No K/P mesti mengandungi 10 hingga 20 digit.');
+                    } else {
+                        messages.push((field.labels && field.labels[0] ? field.labels[0].innerText : field.name) + ' tidak sah.');
+                    }
+                }
+            }
+        });
+        if (!valid) {
+            e.preventDefault();
+            notification.innerHTML = messages.join('<br>');
+            notification.classList.remove('d-none');
+        } else {
+            notification.classList.add('d-none');
+        }
+    });
+});
+</script>
                     @error('pengarah_1_ic')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -382,8 +476,8 @@
                 
                 <div class="mb-3">
                     <label for="pengarah_1_tarikh" class="form-label">Tarikh</label>
-                    <input type="date" class="form-control @error('pengarah_1_tarikh') is-invalid @enderror" 
-                           id="pengarah_1_tarikh" name="pengarah_1_tarikh" value="{{ old('pengarah_1_tarikh', $waqaf->pengarah_1_tarikh?->format('Y-m-d')) }}">
+              <input type="text" class="form-control @error('pengarah_1_tarikh') is-invalid @enderror" 
+                  id="pengarah_1_tarikh" name="pengarah_1_tarikh" value="{{ old('pengarah_1_tarikh', $waqaf->pengarah_1_tarikh ? $waqaf->pengarah_1_tarikh->format('d-m-Y') : '') }}" pattern="(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[012])-(19|20)\d\d" title="Format: dd-mm-yyyy">
                     @error('pengarah_1_tarikh')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -394,8 +488,8 @@
                 <h6 class="text-secondary">Pengarah 2</h6>
                 <div class="mb-3">
                     <label for="pengarah_2_nama" class="form-label">Nama <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control @error('pengarah_2_nama') is-invalid @enderror" 
-                           id="pengarah_2_nama" name="pengarah_2_nama" value="{{ old('pengarah_2_nama', $waqaf->pengarah_2_nama) }}" required>
+              <input type="text" class="form-control @error('pengarah_2_nama') is-invalid @enderror" 
+                  id="pengarah_2_nama" name="pengarah_2_nama" value="{{ old('pengarah_2_nama', $waqaf->pengarah_2_nama) }}" pattern="^[A-Za-z\s]+$" title="Hanya huruf dibenarkan" required>
                     @error('pengarah_2_nama')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -412,8 +506,8 @@
                 
                 <div class="mb-3">
                     <label for="pengarah_2_tarikh" class="form-label">Tarikh</label>
-                    <input type="date" class="form-control @error('pengarah_2_tarikh') is-invalid @enderror" 
-                           id="pengarah_2_tarikh" name="pengarah_2_tarikh" value="{{ old('pengarah_2_tarikh', $waqaf->pengarah_2_tarikh?->format('Y-m-d')) }}">
+              <input type="text" class="form-control @error('pengarah_2_tarikh') is-invalid @enderror" 
+                  id="pengarah_2_tarikh" name="pengarah_2_tarikh" value="{{ old('pengarah_2_tarikh', $waqaf->pengarah_2_tarikh ? $waqaf->pengarah_2_tarikh->format('d-m-Y') : '') }}" pattern="(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[012])-(19|20)\d\d" title="Format: dd-mm-yyyy">
                     @error('pengarah_2_tarikh')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -445,8 +539,8 @@
                 
                 <div class="mb-3">
                     <label for="saksi_1_tarikh" class="form-label">Tarikh</label>
-                    <input type="date" class="form-control @error('saksi_1_tarikh') is-invalid @enderror" 
-                           id="saksi_1_tarikh" name="saksi_1_tarikh" value="{{ old('saksi_1_tarikh', $waqaf->saksi_1_tarikh?->format('Y-m-d')) }}">
+              <input type="text" class="form-control @error('saksi_1_tarikh') is-invalid @enderror" 
+                  id="saksi_1_tarikh" name="saksi_1_tarikh" value="{{ old('saksi_1_tarikh', $waqaf->saksi_1_tarikh ? $waqaf->saksi_1_tarikh->format('d-m-Y') : '') }}" pattern="(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[012])-(19|20)\d\d" title="Format: dd-mm-yyyy">
                     @error('saksi_1_tarikh')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -475,8 +569,8 @@
                 
                 <div class="mb-3">
                     <label for="saksi_2_tarikh" class="form-label">Tarikh</label>
-                    <input type="date" class="form-control @error('saksi_2_tarikh') is-invalid @enderror" 
-                           id="saksi_2_tarikh" name="saksi_2_tarikh" value="{{ old('saksi_2_tarikh', $waqaf->saksi_2_tarikh?->format('Y-m-d')) }}">
+              <input type="text" class="form-control @error('saksi_2_tarikh') is-invalid @enderror" 
+                  id="saksi_2_tarikh" name="saksi_2_tarikh" value="{{ old('saksi_2_tarikh', $waqaf->saksi_2_tarikh ? $waqaf->saksi_2_tarikh->format('d-m-Y') : '') }}" pattern="(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[012])-(19|20)\d\d" title="Format: dd-mm-yyyy">
                     @error('saksi_2_tarikh')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -518,5 +612,55 @@
             <i class="fas fa-save me-2"></i>Kemaskini Permohonan
         </button>
     </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('wakafEditForm');
+        form.addEventListener('submit', function(e) {
+            let isValid = true;
+            let errorMessages = [];
+            const requiredFields = form.querySelectorAll('input[required], textarea[required]');
+            // Validate required fields and pattern
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    field.classList.add('is-invalid');
+                    isValid = false;
+                    errorMessages.push(field.labels && field.labels[0] ? field.labels[0].innerText + ' diperlukan.' : 'Medan diperlukan.');
+                } else if (field.pattern && field.value.trim()) {
+                    const regex = new RegExp('^' + field.pattern + '$');
+                    if (!regex.test(field.value.trim())) {
+                        field.classList.add('is-invalid');
+                        isValid = false;
+                        errorMessages.push(field.labels && field.labels[0] ? field.labels[0].innerText + ' tidak sah. Format sepatutnya dd-mm-yyyy.' : 'Input tidak sah. Format sepatutnya dd-mm-yyyy.');
+                    } else {
+                        field.classList.remove('is-invalid');
+                    }
+                } else {
+                    field.classList.remove('is-invalid');
+                }
+            });
+
+            // Validate at least one checkbox checked
+            const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+            let oneChecked = false;
+            checkboxes.forEach(box => {
+                if (box.checked) oneChecked = true;
+            });
+            if (!oneChecked) {
+                isValid = false;
+                errorMessages.push('Sila tandakan sekurang-kurangnya satu kotak semak dokumen.');
+            }
+
+            const notification = document.getElementById('formNotification');
+            if (!isValid) {
+                e.preventDefault();
+                notification.innerHTML = errorMessages.join('<br>');
+                notification.classList.remove('d-none');
+            } else {
+                notification.classList.add('d-none');
+            }
+        });
+    });
+    </script>
 </form>
 @endsection

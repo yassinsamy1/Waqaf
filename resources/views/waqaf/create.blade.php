@@ -41,6 +41,9 @@
     </div>
 </div>
 
+<!-- Notification Area -->
+<div id="formNotification" class="alert alert-danger d-none" role="alert"></div>
+
 <form action="{{ route('waqaf.store') }}" method="POST" id="wakafForm">
     @csrf
     
@@ -195,20 +198,50 @@ document.addEventListener('DOMContentLoaded', function() {
         const currentPageElement = document.getElementById(`page-${currentPage}`);
         const requiredFields = currentPageElement.querySelectorAll('input[required], textarea[required]');
         let isValid = true;
-        
+        let errorMessages = [];
+
         requiredFields.forEach(field => {
             if (!field.value.trim()) {
                 field.classList.add('is-invalid');
                 isValid = false;
+                errorMessages.push(field.labels && field.labels[0] ? field.labels[0].innerText + ' diperlukan.' : 'Medan diperlukan.');
+            } else if (field.pattern && field.value.trim()) {
+                const regex = new RegExp('^' + field.pattern + '$');
+                if (!regex.test(field.value.trim())) {
+                    field.classList.add('is-invalid');
+                    isValid = false;
+                    if (field.id === 'pengesah_1_tel') {
+                        errorMessages.push('No. Tel Pengesah 1 mesti mengandungi 10 hingga 20 digit.');
+                    } else {
+                        errorMessages.push(field.labels && field.labels[0] ? field.labels[0].innerText + ' tidak sah.' : 'Input tidak sah.');
+                    }
+                } else {
+                    field.classList.remove('is-invalid');
+                }
             } else {
                 field.classList.remove('is-invalid');
             }
         });
-        
-        if (!isValid) {
-            alert('Sila lengkapkan semua medan yang diperlukan sebelum meneruskan.');
+
+        // Validate at least one checkbox checked
+        const checkboxes = currentPageElement.querySelectorAll('input[type="checkbox"]');
+        let oneChecked = false;
+        checkboxes.forEach(box => {
+            if (box.checked) oneChecked = true;
+        });
+        if (checkboxes.length > 0 && !oneChecked) {
+            isValid = false;
+            errorMessages.push('Sila tandakan sekurang-kurangnya satu kotak semak dokumen.');
         }
-        
+
+        const notification = document.getElementById('formNotification');
+        if (!isValid) {
+            notification.innerHTML = errorMessages.join('<br>');
+            notification.classList.remove('d-none');
+        } else {
+            notification.classList.add('d-none');
+        }
+
         return isValid;
     }
     

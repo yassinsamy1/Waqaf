@@ -45,8 +45,8 @@
             <div class="col-md-6">
                 <div class="mb-3">
                     <label for="luas_tanah" class="form-label">Luas Tanah <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control @error('luas_tanah') is-invalid @enderror" 
-                           id="luas_tanah" name="luas_tanah" value="{{ old('luas_tanah') }}" required>
+              <input type="text" class="form-control @error('luas_tanah') is-invalid @enderror" 
+                  id="luas_tanah" name="luas_tanah" value="{{ old('luas_tanah') }}" pattern="\d{3,20}" title="Hanya nombor 3-20 digit" required>
                     @error('luas_tanah')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror

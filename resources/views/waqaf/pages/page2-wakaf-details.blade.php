@@ -7,8 +7,8 @@
             <div class="col-md-6">
                 <div class="mb-3">
                     <label for="no_syarikat" class="form-label">No. Syarikat <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control @error('no_syarikat') is-invalid @enderror" 
-                           id="no_syarikat" name="no_syarikat" value="{{ old('no_syarikat') }}" required>
+              <input type="text" class="form-control @error('no_syarikat') is-invalid @enderror" 
+                  id="no_syarikat" name="no_syarikat" value="{{ old('no_syarikat') }}" pattern="\d{3,20}" title="Hanya nombor 3-20 digit" required>
                     @error('no_syarikat')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -16,8 +16,8 @@
                 
                 <div class="mb-3">
                     <label for="tarikh_lafaz" class="form-label">Tarikh Lafaz <span class="text-danger">*</span></label>
-                    <input type="date" class="form-control @error('tarikh_lafaz') is-invalid @enderror" 
-                           id="tarikh_lafaz" name="tarikh_lafaz" value="{{ old('tarikh_lafaz') }}" required>
+              <input type="text" class="form-control @error('tarikh_lafaz') is-invalid @enderror" 
+                  id="tarikh_lafaz" name="tarikh_lafaz" value="{{ old('tarikh_lafaz') }}" pattern="(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[012])-(19|20)\d\d" title="Format: dd-mm-yyyy" required>
                     @error('tarikh_lafaz')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror

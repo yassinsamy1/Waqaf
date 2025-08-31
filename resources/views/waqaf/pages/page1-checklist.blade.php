@@ -95,18 +95,18 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="mb-3">
-                    <label for="pengesah_1_nama" class="form-label">Nama Pengesah 1</label>
-                    <input type="text" class="form-control @error('pengesah_1_nama') is-invalid @enderror" 
-                           id="pengesah_1_nama" name="pengesah_1_nama" value="{{ old('pengesah_1_nama') }}">
+                    <label for="pengesah_1_nama" class="form-label">Nama Pengesah 1 <span class="text-danger">*</span></label>
+              <input type="text" class="form-control @error('pengesah_1_nama') is-invalid @enderror" 
+                  id="pengesah_1_nama" name="pengesah_1_nama" value="{{ old('pengesah_1_nama') }}" required>
                     @error('pengesah_1_nama')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
                 
                 <div class="mb-3">
-                    <label for="pengesah_1_tel" class="form-label">No. Tel Pengesah 1</label>
-                    <input type="text" class="form-control @error('pengesah_1_tel') is-invalid @enderror" 
-                           id="pengesah_1_tel" name="pengesah_1_tel" value="{{ old('pengesah_1_tel') }}">
+                    <label for="pengesah_1_tel" class="form-label">No. Tel Pengesah 1 <span class="text-danger">*</span></label>
+              <input type="text" class="form-control @error('pengesah_1_tel') is-invalid @enderror" 
+                  id="pengesah_1_tel" name="pengesah_1_tel" value="{{ old('pengesah_1_tel') }}" required pattern="^[0-9]{10,20}$" minlength="10" maxlength="20" title="Masukkan 10 hingga 20 digit telefon">
                     @error('pengesah_1_tel')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
